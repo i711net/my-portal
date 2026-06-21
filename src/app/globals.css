@@ -1,0 +1,386 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #111827;
+  --muted: #667085;
+  --line: #e5e7eb;
+  --soft: #f6f8fb;
+  --accent: #2563eb;
+  --accent-dark: #1d4ed8;
+  --ink: #0f172a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.marquee-box {
+  width: min(100%, 560px);
+}
+
+.marquee-track {
+  display: inline-block;
+  min-width: 100%;
+  animation: marquee-scroll 18s linear both;
+}
+
+.marquee-box:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@media (min-width: 768px) {
+  .marquee-box {
+    width: min(42vw, 560px);
+  }
+}
+
+.page-shell {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(37, 99, 235, 0.05), rgba(37, 99, 235, 0) 34rem),
+    #ffffff;
+}
+
+.container {
+  width: min(1160px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.admin-shell {
+  width: min(1520px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.prose-editor h1,
+.prose-editor h2,
+.prose-editor h3 {
+  margin: 1.2em 0 0.45em;
+  color: #0f172a;
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.prose-editor h1 {
+  font-size: 2.25rem;
+}
+
+.prose-editor h2 {
+  font-size: 1.75rem;
+}
+
+.prose-editor h3 {
+  font-size: 1.35rem;
+}
+
+.prose-editor p {
+  margin: 0.75em 0;
+}
+
+.prose-editor ul,
+.prose-editor ol {
+  margin: 0.9em 0;
+  padding-left: 1.6rem;
+}
+
+.prose-editor ul {
+  list-style: disc;
+}
+
+.prose-editor ol {
+  list-style: decimal;
+}
+
+.prose-editor blockquote {
+  margin: 1.2em 0;
+  border-left: 4px solid #2563eb;
+  padding-left: 1rem;
+  color: #475569;
+  font-weight: 650;
+}
+
+.prose-editor pre {
+  margin: 1.2em 0;
+  overflow: auto;
+  border-radius: 8px;
+  background: #0f172a;
+  padding: 1rem;
+  color: #f8fafc;
+  font-size: 0.9rem;
+}
+
+.prose-editor code {
+  border-radius: 5px;
+  background: #e2e8f0;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.9em;
+}
+
+.prose-editor pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.prose-editor a {
+  color: #2563eb;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.prose-editor img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.prose-editor img.ProseMirror-selectednode {
+  outline: 3px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 3px;
+}
+
+.prose-editor figure[data-image-align="left"] {
+  align-items: flex-start;
+}
+
+.prose-editor figure[data-image-align="center"] {
+  align-items: center;
+}
+
+.prose-editor figure[data-image-align="right"] {
+  align-items: flex-end;
+}
+
+.prose-editor figcaption {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.prose-editor .editor-table,
+.prose-editor table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.prose-editor .editor-table td,
+.prose-editor table td,
+.prose-editor table th {
+  border: 1px solid #cbd5e1;
+  padding: 0.55rem;
+  vertical-align: top;
+}
+
+.prose-editor hr {
+  margin: 1.6rem 0;
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.prose-editor .is-editor-empty:first-child::before {
+  color: #94a3b8;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.button.primary {
+  background: var(--accent);
+  color: white;
+}
+
+.button.secondary {
+  background: white;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.button.primary:hover {
+  background: var(--accent-dark);
+}
+
+.field {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 13px;
+  color: var(--ink);
+  background: white;
+}
+
+.field:focus {
+  border-color: var(--accent);
+  outline: 3px solid rgba(37, 99, 235, 0.13);
+}
+
+.compact-field {
+  min-height: 38px;
+  padding: 8px 11px;
+  font-size: 14px;
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+}
+
+.home-post-card {
+  border: 2px solid #cbd5e1;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+}
+
+.home-post-card:hover {
+  border-color: #94a3b8;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.12);
+}
+
+@media (max-width: 760px) {
+  .container {
+    width: min(100% - 28px, 1160px);
+  }
+
+  .admin-shell {
+    width: min(100% - 20px, 1520px);
+    gap: 14px;
+  }
+
+  .admin-sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+  }
+
+  .admin-sidebar > p,
+  .admin-sidebar .mt-6,
+  .admin-sidebar .mt-5.rounded-lg,
+  .admin-sidebar .mt-3.rounded-lg {
+    display: none;
+  }
+
+  .admin-nav {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    overflow-x: auto;
+    padding-bottom: 3px;
+    scrollbar-width: none;
+  }
+
+  .admin-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .admin-nav .button,
+  .admin-actions .button {
+    flex: 0 0 auto;
+    min-height: 40px;
+    padding: 0 13px;
+    white-space: nowrap;
+  }
+
+  .admin-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 25;
+    margin: 0 -16px -16px;
+    overflow-x: auto;
+    border-top: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.96);
+    padding: 10px 16px;
+    box-shadow: 0 -10px 24px rgba(15, 23, 42, 0.08);
+    scrollbar-width: none;
+  }
+
+  .admin-actions::-webkit-scrollbar {
+    display: none;
+  }
+
+  .field {
+    padding: 11px 12px;
+    font-size: 16px;
+  }
+
+  .rich-editor-toolbar {
+    flex-wrap: wrap;
+    gap: 4px;
+    overflow: visible;
+    padding: 6px;
+  }
+
+  .rich-editor-toolbar button {
+    padding: 6px 7px;
+    white-space: nowrap;
+  }
+
+  .rich-editor-scroll {
+    max-height: none;
+  }
+
+  .rich-editor-content {
+    min-height: 420px !important;
+    padding: 18px 14px !important;
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  .prose-editor h1 {
+    font-size: 1.85rem;
+  }
+
+  .prose-editor h2 {
+    font-size: 1.5rem;
+  }
+
+  .prose-editor h3 {
+    font-size: 1.2rem;
+  }
+}

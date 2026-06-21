@@ -1,0 +1,36 @@
+{
+  "name": "my-blog",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.830.0",
+    "@aws-sdk/s3-request-presigner": "^3.830.0",
+    "@supabase/supabase-js": "latest",
+    "@tiptap/core": "latest",
+    "@tiptap/extension-image": "latest",
+    "@tiptap/extension-link": "latest",
+    "@tiptap/extension-placeholder": "latest",
+    "@tiptap/pm": "latest",
+    "@tiptap/react": "latest",
+    "@tiptap/starter-kit": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.10",
+    "@types/node": "^22.15.32",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "eslint": "^9.29.0",
+    "eslint-config-next": "latest",
+    "tailwindcss": "^4.1.10",
+    "typescript": "^5.8.3"
+  }
+}
