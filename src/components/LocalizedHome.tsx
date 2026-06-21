@@ -119,7 +119,7 @@ export function LocalizedHome() {
     <div className="page-shell">
       <SiteHeader
         language={language}
-        siteName="MY Portal"
+        siteName={homeSettings.siteName && homeSettings.siteName !== "MY Blog" ? homeSettings.siteName : "MY Portal"}
         marqueeText={homeSettings.marqueeText}
         marqueeItems={homeSettings.marqueeItems}
         marqueeSpeed={homeSettings.marqueeSpeed}

@@ -46,7 +46,7 @@ export function getDefaultHomeSettings(language: Language): HomeSettings {
   const t = translations[language].home;
 
   return {
-    siteName: "MY Blog",
+    siteName: "MY Portal",
     marqueeText: "",
     marqueeItems: [],
     marqueeSpeed: 18,
@@ -57,7 +57,7 @@ export function getDefaultHomeSettings(language: Language): HomeSettings {
     browsePosts: t.browsePosts,
     featuredTitle: t.featured,
     latestTitle: t.latest,
-    seoTitle: "MY Blog",
+    seoTitle: "MY Portal",
     seoDescription: t.intro,
     contactTitle: t.contactTitle,
     contactIntro: t.contactIntro,

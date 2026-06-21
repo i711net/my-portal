@@ -148,6 +148,10 @@ select {
   padding-bottom: 1.2rem;
 }
 
+.portal-first-section {
+  padding-top: 2rem;
+}
+
 .portal-section-last {
   padding-bottom: 4rem;
 }

@@ -74,7 +74,6 @@ export async function POST(request: Request) {
     if (hasMissingHomeSettingsColumns(error)) {
       const {
         layout_order: _layoutOrder,
-        marquee_text: _marqueeText,
         marquee_items: _marqueeItems,
         marquee_speed: _marqueeSpeed,
         marquee_gap: _marqueeGap,

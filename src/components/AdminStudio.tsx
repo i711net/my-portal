@@ -2597,13 +2597,6 @@ function HomeSettingsPanel({
   onRefresh: () => void;
   onSave: () => void;
 }) {
-  const layoutOrder = settings.layoutOrder?.length ? settings.layoutOrder : defaultHomeLayout;
-  const sectionLabels: Record<HomeSection, string> = {
-    hero: copy.homeLayoutHero,
-    latest: copy.homeLayoutLatest,
-    friends: copy.homeLayoutFriends,
-    contact: copy.homeLayoutContact,
-  };
   const friendLinks = settings.friendLinks ?? [];
   const marqueeItems = settings.marqueeItems ?? [];
 
@@ -2619,8 +2612,8 @@ function HomeSettingsPanel({
       <div className="card p-5 md:p-6">
         <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
-            <h2 className="text-2xl font-black tracking-tight text-slate-950">{copy.homeSettings}</h2>
-            <p className="text-sm text-slate-500">{copy.homeSettingsSaved}</p>
+            <h2 className="text-2xl font-black tracking-tight text-slate-950">门户首页设置</h2>
+            <p className="text-sm text-slate-500">设置当前门户首页使用的站点名称、SEO、顶部滚动文字、友情链接和联系区域。</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <button className="button secondary" type="button" onClick={onRefresh} disabled={isLoading || isSaving}>
@@ -2635,12 +2628,7 @@ function HomeSettingsPanel({
         <div className="grid gap-4 md:grid-cols-2">
           <HomeField label={copy.siteName} value={settings.siteName} onChange={(value) => onChange({ siteName: value })} />
           <HomeField label={copy.seoTitle} value={settings.seoTitle} onChange={(value) => onChange({ seoTitle: value })} />
-          <HomeField label={copy.homepageHeadline} value={settings.headline} onChange={(value) => onChange({ headline: value })} wide />
-          <HomeTextArea label={copy.homepageIntro} value={settings.intro} onChange={(value) => onChange({ intro: value })} />
           <HomeTextArea label={copy.seoDescription} value={settings.seoDescription} onChange={(value) => onChange({ seoDescription: value })} />
-          <HomeField label={copy.primaryButton} value={settings.startWriting} onChange={(value) => onChange({ startWriting: value })} />
-          <HomeField label={copy.secondaryButton} value={settings.browsePosts} onChange={(value) => onChange({ browsePosts: value })} />
-          <HomeField label={copy.latestHeading} value={settings.latestTitle} onChange={(value) => onChange({ latestTitle: value })} />
           <HomeField label={copy.contactTitle} value={settings.contactTitle} onChange={(value) => onChange({ contactTitle: value })} />
           <HomeField label={copy.contactButton} value={settings.contactButton} onChange={(value) => onChange({ contactButton: value })} />
           <HomeTextArea label={copy.contactIntro} value={settings.contactIntro} onChange={(value) => onChange({ contactIntro: value })} />
@@ -2773,44 +2761,6 @@ function HomeSettingsPanel({
                 {copy.noFriendLinksAdmin}
               </div>
             )}
-          </div>
-        </div>
-
-        <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4">
-          <div className="mb-4">
-            <h3 className="text-lg font-black tracking-tight text-slate-950">{copy.homeLayout}</h3>
-            <p className="mt-1 text-sm text-slate-500">{copy.homeLayoutIntro}</p>
-          </div>
-          <div className="grid gap-3">
-            {layoutOrder.map((section, index) => (
-              <div
-                key={section}
-                className="flex cursor-grab flex-col gap-3 rounded-lg border border-slate-200 bg-white p-4 md:flex-row md:items-center md:justify-between"
-                draggable
-                onDragStart={(event) => event.dataTransfer.setData("text/plain", section)}
-                onDragOver={(event) => event.preventDefault()}
-                onDrop={(event) => {
-                  event.preventDefault();
-                  const dragged = event.dataTransfer.getData("text/plain") as HomeSection;
-                  onDropSection(dragged, section);
-                }}
-              >
-                <div>
-                  <p className="text-sm font-black text-slate-950">
-                    {index + 1}. {sectionLabels[section]}
-                  </p>
-                  <p className="mt-1 text-xs font-semibold text-slate-500">{copy.dragHint}</p>
-                </div>
-                <div className="flex gap-2">
-                  <button className="button secondary min-h-9 px-3 text-xs" type="button" disabled={index === 0} onClick={() => onMoveSection(section, -1)}>
-                    {copy.up}
-                  </button>
-                  <button className="button secondary min-h-9 px-3 text-xs" type="button" disabled={index === layoutOrder.length - 1} onClick={() => onMoveSection(section, 1)}>
-                    {copy.down}
-                  </button>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </div>

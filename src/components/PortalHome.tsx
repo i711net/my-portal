@@ -118,23 +118,7 @@ export function PortalHome({ language, posts }: PortalHomeProps) {
 
   return (
     <main className="portal-page">
-      <section className="container portal-hero">
-        <div className="portal-hero-copy">
-          <p className="portal-subtitle">{copy.subtitle}</p>
-          <h1>{copy.title}</h1>
-          <p>{copy.intro}</p>
-          <div className="portal-actions">
-            <Link className="button primary" href="/blog">
-              {copy.viewBlog}
-            </Link>
-            <Link className="button secondary" href="/admin">
-              {copy.admin}
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section id="news" className="container portal-section">
+      <section id="news" className="container portal-section portal-first-section">
         <PortalSectionHeader title={copy.news} action={<Link href="/news">{copy.openNews}</Link>} />
         <div className="portal-image-grid">
           {newsItems.map((item) => (
