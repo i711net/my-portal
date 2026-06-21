@@ -454,7 +454,7 @@ export function AdminStudio({ language = "zh" }: { language?: Language }) {
 
   function updateHomeSettings(patch: Partial<HomeSettings>) {
     setHomeSettings((current) => {
-      const next = mergeHomeSettings(language, { ...current, ...patch });
+      const next = { ...current, ...patch };
       saveHomeSettingsLocal(language, next);
       return next;
     });
