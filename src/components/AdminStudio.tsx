@@ -9,7 +9,7 @@ import { translations, type Language } from "@/lib/i18n";
 type UploadState = "idle" | "uploading" | "done" | "error";
 type EditorMode = "edit" | "preview";
 type PostStatus = "Draft" | "Published";
-type AdminSection = "post" | "manage" | "media" | "background" | "categories" | "home" | "messages";
+type AdminSection = "dashboard" | "post" | "manage" | "news" | "novels" | "shop" | "media" | "background" | "categories" | "home" | "messages";
 type BlockType = "paragraph" | "heading" | "image" | "video" | "audio" | "link" | "quote" | "code";
 type MediaInsertType = "image" | "video" | "audio";
 
@@ -66,6 +66,59 @@ type SiteMessage = {
 };
 
 type AdminCopy = (typeof translations)["en"]["admin"];
+
+const portalAdminCopy = {
+  zh: {
+    title: "MY Portal 后台",
+    intro: "整个门户网站的控制台：管理首页、新闻、小说、商品、博客、媒体和留言。",
+    dashboard: "门户总览",
+    news: "新闻管理",
+    novels: "小说管理",
+    shop: "商品管理",
+    blogEditor: "博客写作",
+    blogPosts: "博客文章",
+    comingSoon: "这个频道页面已经建立，后台数据管理会在下一步接入。",
+    dashboardIntro: "现在后台已经从单一博客后台改成门户后台。博客功能保留，同时预留新闻、小说、商品和订单扩展位置。",
+    homepage: "门户首页",
+    content: "内容频道",
+    commerce: "商品与收款",
+    system: "系统设置",
+  },
+  en: {
+    title: "MY Portal Admin",
+    intro: "The full portal control center for homepage, news, novels, shop, blog, media, and messages.",
+    dashboard: "Portal Overview",
+    news: "News",
+    novels: "Novels",
+    shop: "Shop",
+    blogEditor: "Blog Editor",
+    blogPosts: "Blog Posts",
+    comingSoon: "This public channel page exists now. Data management will be connected next.",
+    dashboardIntro: "The admin is now a portal admin instead of only a blog desk. Blog tools stay here while news, novels, products, and orders are prepared.",
+    homepage: "Portal Homepage",
+    content: "Content Channels",
+    commerce: "Shop and Payments",
+    system: "System Settings",
+  },
+  ko: {
+    title: "MY Portal 관리자",
+    intro: "홈, 뉴스, 소설, 상품, 블로그, 미디어, 메시지를 관리하는 포털 전체 관리자 화면입니다.",
+    dashboard: "포털 개요",
+    news: "뉴스 관리",
+    novels: "소설 관리",
+    shop: "상품 관리",
+    blogEditor: "블로그 작성",
+    blogPosts: "블로그 글",
+    comingSoon: "공개 채널 페이지는 만들어졌고, 데이터 관리는 다음 단계에서 연결합니다.",
+    dashboardIntro: "관리자 화면이 단일 블로그 관리에서 포털 전체 관리로 바뀌었습니다. 블로그 기능은 유지하고 뉴스, 소설, 상품, 주문 확장 자리를 준비했습니다.",
+    homepage: "포털 홈",
+    content: "콘텐츠 채널",
+    commerce: "상품과 결제",
+    system: "시스템 설정",
+  },
+};
+
+type PortalAdminCopy = (typeof portalAdminCopy)["zh"];
 
 const ADMIN_TOKEN_KEY = "my-blog-admin-token";
 const ADMIN_LOCK_KEY = "my-blog-admin-lock";
@@ -265,7 +318,8 @@ function blocksToHtml(blocks: ContentBlock[]) {
 
 export function AdminStudio({ language = "zh" }: { language?: Language }) {
   const t = translations[language].admin;
-  const [section, setSection] = useState<AdminSection>("post");
+  const portalT = portalAdminCopy[language];
+  const [section, setSection] = useState<AdminSection>("dashboard");
   const [mode, setMode] = useState<EditorMode>("edit");
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
@@ -517,7 +571,7 @@ export function AdminStudio({ language = "zh" }: { language?: Language }) {
     setAdminUnlocked(false);
     setToken("");
     setLoginToken("");
-    setSection("post");
+    setSection("dashboard");
     clearStoredAdminSession();
     window.location.assign("/");
   }
@@ -1483,9 +1537,9 @@ export function AdminStudio({ language = "zh" }: { language?: Language }) {
   return (
     <main className="admin-shell grid gap-6 pb-28 pt-4 md:pt-8 xl:grid-cols-[220px_minmax(0,1fr)_300px]">
       <aside className="card admin-sidebar h-fit p-4 md:p-5">
-        <h1 className="text-xl font-black text-slate-950">{t.deskTitle}</h1>
+        <h1 className="text-xl font-black text-slate-950">{portalT.title}</h1>
         <p className="mt-2 text-sm leading-6 text-slate-600">
-          {t.deskIntro}
+          {portalT.intro}
         </p>
         <div className="mt-6 space-y-3 text-sm">
           <MetaRow label={t.status} value={status === "Draft" ? t.draft : t.published} />
@@ -1502,8 +1556,11 @@ export function AdminStudio({ language = "zh" }: { language?: Language }) {
           <div className="rounded-lg bg-green-50 px-3 py-2 text-xs font-semibold leading-5 text-green-700">
             {t.loggedIn}
           </div>
+          <button className={`button ${section === "dashboard" ? "primary" : "secondary"}`} type="button" onClick={() => setSection("dashboard")}>
+            {portalT.dashboard}
+          </button>
           <button className={`button ${section === "post" ? "primary" : "secondary"}`} type="button" onClick={() => setSection("post")}>
-            {t.postEditor}
+            {portalT.blogEditor}
           </button>
           <button
             className={`button ${section === "manage" ? "primary" : "secondary"}`}
@@ -1513,7 +1570,16 @@ export function AdminStudio({ language = "zh" }: { language?: Language }) {
               void loadManagedPosts();
             }}
           >
-            {t.managePosts}
+            {portalT.blogPosts}
+          </button>
+          <button className={`button ${section === "news" ? "primary" : "secondary"}`} type="button" onClick={() => setSection("news")}>
+            {portalT.news}
+          </button>
+          <button className={`button ${section === "novels" ? "primary" : "secondary"}`} type="button" onClick={() => setSection("novels")}>
+            {portalT.novels}
+          </button>
+          <button className={`button ${section === "shop" ? "primary" : "secondary"}`} type="button" onClick={() => setSection("shop")}>
+            {portalT.shop}
           </button>
           <button
             className={`button ${section === "media" ? "primary" : "secondary"}`}
@@ -1564,7 +1630,15 @@ export function AdminStudio({ language = "zh" }: { language?: Language }) {
         </div>
       </aside>
 
-      {section === "home" ? (
+      {section === "dashboard" ? (
+        <PortalAdminDashboard copy={portalT} />
+      ) : section === "news" ? (
+        <PortalChannelAdminPanel title={portalT.news} description={portalT.comingSoon} href="/news" />
+      ) : section === "novels" ? (
+        <PortalChannelAdminPanel title={portalT.novels} description={portalT.comingSoon} href="/novels" />
+      ) : section === "shop" ? (
+        <PortalChannelAdminPanel title={portalT.shop} description={portalT.comingSoon} href="/shop" />
+      ) : section === "home" ? (
         <HomeSettingsPanel
           settings={homeSettings}
           copy={t}
@@ -2308,6 +2382,55 @@ function ManagePostsPanel({
             {isLoading ? copy.loadingPosts : copy.noManagedPosts}
           </div>
         )}
+      </div>
+    </section>
+  );
+}
+
+function PortalAdminDashboard({ copy }: { copy: PortalAdminCopy }) {
+  const cards = [
+    { title: copy.homepage, body: "首页模块、滚动公告、背景、友情链接和联系区域。" },
+    { title: copy.content, body: "新闻、小说、博客文章都放在内容频道里统一管理。" },
+    { title: copy.commerce, body: "商品展示已经有前台页面，下一步可以接订单和付款。" },
+    { title: copy.system, body: "媒体库、分类、留言、后台安全和网站设置继续保留。" },
+  ];
+
+  return (
+    <section className="grid gap-6">
+      <div className="card p-5 md:p-6">
+        <div className="mb-5">
+          <h2 className="text-2xl font-black tracking-tight text-slate-950">{copy.dashboard}</h2>
+          <p className="mt-2 text-sm leading-6 text-slate-600">{copy.dashboardIntro}</p>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          {cards.map((card) => (
+            <article key={card.title} className="rounded-lg border border-slate-200 bg-white p-4">
+              <h3 className="text-lg font-black text-slate-950">{card.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{card.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PortalChannelAdminPanel({ title, description, href }: { title: string; description: string; href: string }) {
+  return (
+    <section className="grid gap-6">
+      <div className="card p-5 md:p-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-2xl font-black tracking-tight text-slate-950">{title}</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
+          </div>
+          <a className="button primary" href={href} target="_blank" rel="noreferrer">
+            打开前台页面
+          </a>
+        </div>
+        <div className="mt-5 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-6 text-sm font-bold leading-6 text-slate-500">
+          下一步这里可以增加：新增、编辑、删除、上传封面、设置推荐、排序、发布状态。
+        </div>
       </div>
     </section>
   );

@@ -84,9 +84,6 @@ select {
 }
 
 .portal-hero {
-  display: grid;
-  gap: 1.5rem;
-  grid-template-columns: minmax(0, 1fr);
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
 }
@@ -128,12 +125,6 @@ select {
   margin-top: 1.5rem;
 }
 
-.portal-channel-panel {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.portal-channel-link,
 .portal-card,
 .portal-empty {
   border: 2px solid #cbd5e1;
@@ -142,32 +133,14 @@ select {
   box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
 }
 
-.portal-channel-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem;
-  transition:
-    border-color 160ms ease,
-    transform 160ms ease;
-}
-
-.portal-channel-link:hover,
 .portal-card:hover {
   border-color: #2563eb;
   transform: translateY(-2px);
 }
 
-.portal-channel-link span,
 .portal-card h3 {
   color: #0f172a;
   font-weight: 900;
-}
-
-.portal-channel-link strong {
-  color: #2563eb;
-  font-size: 0.8rem;
 }
 
 .portal-section {
@@ -207,11 +180,23 @@ select {
   grid-template-columns: 1fr;
 }
 
+.portal-image-grid {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .portal-card {
   padding: 1.1rem;
   transition:
     border-color 160ms ease,
     transform 160ms ease;
+}
+
+.portal-compact-card {
+  display: block;
+  min-width: 0;
+  padding: 0.7rem;
 }
 
 .portal-card h3 {
@@ -220,11 +205,30 @@ select {
   line-height: 1.35;
 }
 
+.portal-compact-card h3 {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.9rem;
+  line-height: 1.3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 .portal-card p {
   margin: 0.7rem 0 1rem;
   color: #64748b;
   font-size: 0.94rem;
   line-height: 1.7;
+}
+
+.portal-compact-card p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0.45rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .portal-card span {
@@ -244,7 +248,7 @@ select {
 
 .portal-product-image {
   display: grid;
-  min-height: 7rem;
+  min-height: 5rem;
   place-items: center;
   margin-bottom: 1rem;
   border-radius: 8px;
@@ -253,6 +257,26 @@ select {
     #eff6ff;
   color: #1d4ed8;
   font-size: 1.8rem;
+  font-weight: 950;
+}
+
+.portal-compact-card .portal-product-image {
+  min-height: 4.4rem;
+  margin-bottom: 0.65rem;
+  font-size: 1rem;
+}
+
+.portal-image-thumb {
+  display: grid;
+  min-height: 4.4rem;
+  place-items: center;
+  margin-bottom: 0.65rem;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 70% 20%, rgba(255, 255, 255, 0.75), transparent 2.6rem),
+    linear-gradient(135deg, #dbeafe, #f8fafc);
+  color: #1d4ed8;
+  font-size: 1.35rem;
   font-weight: 950;
 }
 
@@ -267,20 +291,44 @@ select {
   text-align: center;
 }
 
+.portal-channel-hero {
+  padding-top: 2.5rem;
+  padding-bottom: 1rem;
+}
+
+.portal-channel-hero h1 {
+  margin: 0.8rem 0 0;
+  color: #0f172a;
+  font-size: clamp(2.3rem, 6vw, 4.8rem);
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.portal-channel-hero p {
+  max-width: 760px;
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.portal-back-link {
+  color: #2563eb;
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
 @media (min-width: 768px) {
   .portal-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .portal-image-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
   .portal-blog-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 960px) {
-  .portal-hero {
-    grid-template-columns: minmax(0, 1fr) 360px;
-    align-items: end;
   }
 }
 

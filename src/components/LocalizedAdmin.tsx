@@ -49,7 +49,7 @@ export function LocalizedAdmin() {
 
   return (
     <div className="page-shell">
-      <SiteHeader language={language} siteName={homeSettings.siteName} onLanguageChange={changeLanguage} />
+      <SiteHeader language={language} siteName="MY Portal" onLanguageChange={changeLanguage} />
       <AdminStudio language={language} />
     </div>
   );
