@@ -849,10 +849,9 @@ export function AdminStudio({ language = "zh" }: { language?: Language }) {
         throw new Error(data.detail || data.error || "Could not save home settings.");
       }
 
-      if (data.settings) {
-        setHomeSettings(data.settings);
-        saveHomeSettingsLocal(language, data.settings);
-      }
+      const savedSettings = mergeHomeSettings(language, data.settings ? { ...data.settings, ...settings } : settings);
+      setHomeSettings(savedSettings);
+      saveHomeSettingsLocal(language, savedSettings);
 
       setNotice(successNotice);
       setLastSaved(successNotice);

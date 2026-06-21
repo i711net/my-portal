@@ -101,7 +101,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Could not save home settings.", detail: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ settings: rowToHomeSettings(language, data as HomeSettingsRow) });
+    return NextResponse.json({ settings: rowToHomeSettings(language, { ...((data as HomeSettingsRow | null) ?? {}), ...row }) });
   } catch (error) {
     return NextResponse.json(
       { error: "Could not save home settings.", detail: error instanceof Error ? error.message : "Unknown error" },
