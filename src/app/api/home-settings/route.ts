@@ -101,6 +101,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Could not save home settings.", detail: error.message }, { status: 500 });
     }
 
+    const marqueeRetry = await supabase
+      .from("home_settings")
+      .update({
+        marquee_text: row.marquee_text,
+        marquee_items: row.marquee_items,
+        marquee_speed: row.marquee_speed,
+        marquee_gap: row.marquee_gap,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("language", language)
+      .select("*")
+      .single();
+
+    if (marqueeRetry.error && !hasMissingHomeSettingsColumns(marqueeRetry.error)) {
+      return NextResponse.json({ error: "Could not save marquee settings.", detail: marqueeRetry.error.message }, { status: 500 });
+    }
+
+    data = marqueeRetry.data ?? data;
+
     return NextResponse.json({ settings: rowToHomeSettings(language, { ...((data as HomeSettingsRow | null) ?? {}), ...row }) });
   } catch (error) {
     return NextResponse.json(
