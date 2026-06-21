@@ -348,6 +348,7 @@ export function AdminStudio({ language = "zh" }: { language?: Language }) {
   const [notice, setNotice] = useState(t.notSaved);
   const [isSaving, setIsSaving] = useState(false);
   const [homeSettings, setHomeSettings] = useState<HomeSettings>(() => getDefaultHomeSettings(language));
+  const [homeSettingsDirty, setHomeSettingsDirty] = useState(false);
   const [managedPosts, setManagedPosts] = useState<ManagedPost[]>([]);
   const [isLoadingPosts, setIsLoadingPosts] = useState(false);
   const [categoryItems, setCategoryItems] = useState<BlogCategory[]>(defaultCategories);
@@ -362,6 +363,7 @@ export function AdminStudio({ language = "zh" }: { language?: Language }) {
   const autoDraftSlugRef = useRef("");
   const autoSaveInFlightRef = useRef(false);
   const lastAutoSaveSnapshotRef = useRef("");
+  const homeSettingsLoadedRef = useRef(false);
 
   const wordCount = useMemo(() => {
     const text = [title, excerpt, richText].join(" ");
@@ -371,6 +373,9 @@ export function AdminStudio({ language = "zh" }: { language?: Language }) {
   const mediaCount = useMemo(() => (richContent.match(/<(img|video|audio)\b/gi) ?? []).length, [richContent]);
 
   useEffect(() => {
+    homeSettingsLoadedRef.current = false;
+    setHomeSettingsDirty(false);
+
     const savedToken = window.sessionStorage.getItem(ADMIN_TOKEN_KEY);
     const lockState = readAdminLockState();
 
@@ -430,10 +435,10 @@ export function AdminStudio({ language = "zh" }: { language?: Language }) {
   }, [adminUnlocked, token]);
 
   useEffect(() => {
-    if (adminUnlocked && section === "home") {
+    if (adminUnlocked && section === "home" && !homeSettingsDirty && !homeSettingsLoadedRef.current) {
       void loadHomeSettings();
     }
-  }, [adminUnlocked, language, section]);
+  }, [adminUnlocked, homeSettingsDirty, language, section]);
 
   useEffect(() => {
     if (!adminUnlocked || section !== "post" || status !== "Draft") {
@@ -448,7 +453,12 @@ export function AdminStudio({ language = "zh" }: { language?: Language }) {
   }, [adminUnlocked, section, status, title, slug, excerpt, category, tags, coverUrl, richContent, richText, token]);
 
   function updateHomeSettings(patch: Partial<HomeSettings>) {
-    setHomeSettings((current) => ({ ...current, ...patch }));
+    setHomeSettings((current) => {
+      const next = mergeHomeSettings(language, { ...current, ...patch });
+      saveHomeSettingsLocal(language, next);
+      return next;
+    });
+    setHomeSettingsDirty(true);
   }
 
   function moveHomeSection(section: HomeSection, direction: -1 | 1) {
@@ -852,6 +862,8 @@ export function AdminStudio({ language = "zh" }: { language?: Language }) {
       const savedSettings = mergeHomeSettings(language, data.settings ? { ...data.settings, ...settings } : settings);
       setHomeSettings(savedSettings);
       saveHomeSettingsLocal(language, savedSettings);
+      homeSettingsLoadedRef.current = true;
+      setHomeSettingsDirty(false);
 
       setNotice(successNotice);
       setLastSaved(successNotice);
@@ -880,6 +892,8 @@ export function AdminStudio({ language = "zh" }: { language?: Language }) {
       if (data.settings) {
         setHomeSettings(data.settings);
         saveHomeSettingsLocal(language, data.settings);
+        homeSettingsLoadedRef.current = true;
+        setHomeSettingsDirty(false);
         setNotice(t.homeSettingsLoaded);
       }
     } catch (error) {
